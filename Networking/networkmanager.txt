@@ -1,0 +1,50 @@
+---------------------------------------------[NetworkManager]------------------------------
+
+                        [ nmcli is a network management tool for linux systems ]
+
+// list nearby wifi AP's
+
+$ nmcli device wifi list
+
+
+// connect to a wifi AP
+
+$ nmcli device wifi connect SSID_OR_BSSID password <password>
+
+
+// connect using a specific network interface 
+
+$ nmcli device wifi connect SSID_OR_BSSID password <password> ifname <interface>
+
+
+// disconnect a specific interface
+
+$ nmcli device disconnect ifname <wlan0>
+
+
+// get a list of connections with their names, UUIDs, types and backing devices
+
+$ nmcli connection show 
+
+
+// activate a connection that was established recently 
+
+$ nmcli connection up SSID_OR_UUID
+
+
+// delete a connection 
+
+$ nmcli connection delete SSID_OR_UUID
+
+
+// list network devices and their state
+
+$ nmcli device
+
+
+// turn off wifi
+
+$ nmcli radio wifi off 
+
+
+---------------------------------------------[NetworkManager]------------------------------
