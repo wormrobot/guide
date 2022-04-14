@@ -1,0 +1,85 @@
+---------------------------------------------[IP-TABLES]-----------------------------------
+
+                        [ A program to help us manage our firwall rules]
+
+// firewall rules are executed from top to bottom so an incoming or outgoing packet will check
+// the firewall rule from top to bottom so lets say if the socond rule on the list is 
+// block all incoming ssh connections, the incoming packet will check the first rule and skip then 
+// check second rule and notice it says block so it will denie the packet
+
+
+
+[ INPUT OPTIONS ]
+
+-I = insert a rule to the top of the list
+-A = Append to the bottom of the list 
+-s = source ip meaning any connection from a specific ip
+-j = to specify the target
+-D = delete a rule, and we also specify the chain right after, & then the number
+-p = protocal
+-F = flush all the rules, meaning delete all the rules
+--dport = destination port meaning a specific port 
+--line-numbers = list the rules and identify them by numbers
+
+
+[ NAME OF THE CHAIN ]
+
+INPUT = incoming connections
+OUTPUT = outgoing connections
+
+[ TARGETS ]
+
+ACCEPT = accept the packet
+DROP = drop the packet
+REJECT = denie connection but will still give u an output 
+
+
+
+// list all current configured rules
+
+$ iptables -L 
+
+
+// lets start with Input meaning incoming connections
+
+$ sudo iptables --policy INPUT ACCEPT
+
+
+// now we can try to block connections from a particular ip address
+
+$ sudo iptables -I INPUT -s 10.0.0.1 -j DROP 
+
+
+// deleting a rule , we can list the rules with line numbers
+
+$ sudo iptables -L --line-numbers
+
+
+// now we can specify the chain that we want to delete from 
+// and we then specify the line number
+
+$ sudo iptables -D INPUT 1
+
+
+// if we want to delete all the rules at once we can use -F to flush all the rules
+
+$ sudo iptables -F 
+
+
+// lets try now to DROP any incoming connections to a tcp protocal on destination port 80
+// or lets say our web server running apache on port 80
+
+$ sudo iptables -I INPUT -p tcp --dport 80 -j DROP
+
+
+[ IMPORTANT ] // if i only want to give access to my self to the web server using my public ip
+
+$ sudo iptables -I INPUT -p tcp --dport 80 -s 10.0.0.1 -j ACCEPT 
+
+
+[ TO SAVE THE RULES ]
+
+$ sudo /sbin/iptables-save
+
+
+---------------------------------------------[IP-TABLES]-----------------------------------
